@@ -1,0 +1,25 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper
+  PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+  "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.neuedu.mapper.DeptMapper">
+	<resultMap type="com.neuedu.po.DeptPO" id="dept_map">
+		<id column="deptid" property="deptid"/>
+		<result column="dname" property="dname"/>
+		<collection property="emplist" ofType="com.neuedu.po.EmployeePO">
+			<id column="empid" property="empid"/>
+			<result column="ename" property="ename"/>
+			<result column="hiredate" property="hiredate"/>
+		</collection>
+	</resultMap>
+	<select id="getDeptList" resultType="com.neuedu.po.DeptPO">
+		SELECT * FROM dept
+	</select>
+	<select id="getDeptById" resultMap="dept_map" parameterType="int">
+		SELECT d.*, e.empid, e.ename, e.hiredate 
+		FROM dept d JOIN employees e ON(d.deptid = e.deptid)
+		WHERE d.deptid = #{id}
+	</select>
+</mapper> 
+  
+  
